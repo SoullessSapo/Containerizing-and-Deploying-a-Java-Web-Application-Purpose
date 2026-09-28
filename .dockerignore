@@ -1,0 +1,3 @@
+# Only the packaged jar is needed to build the image.
+*
+!target/*.jar
