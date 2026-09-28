@@ -1,0 +1,18 @@
+# Maven
+target/
+
+# IDEs
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local secrets (never commit AWS keys or .pem files)
+*.pem
+.env
