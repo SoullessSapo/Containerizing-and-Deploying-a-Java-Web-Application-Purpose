@@ -1,0 +1,33 @@
+# Capacity test of the virtualization-lab image under CPU limits that mimic EC2 burstable instances.
+# t3.micro: 2 vCPU, 1 GiB, sustained baseline 10% per vCPU  -> --cpus=0.2
+# t3.small: 2 vCPU, 2 GiB, sustained baseline 20% per vCPU  -> --cpus=0.4
+# Burst (CPU credits available): 2 full vCPUs                -> --cpus=2
+# Load generator and container share a 4-core host; closed loop, 16 concurrent clients, 10 s warm-up, 30 s measurement.
+
+## t3.micro sustained baseline (0.2 vCPU, 1 GiB)
+$ docker run -d --cpus=0.2 --memory=1g -p 35000:9000 dockerhub-user/virtualization-lab:1.0
+$ java scripts/LoadTest.java "http://localhost:35000/greeting?name=Load" 16 30
+url=http://localhost:35000/greeting?name=Load concurrency=16 duration=30s
+requests=10237 errors=0 throughput=341.2 req/s
+latency ms: p50=6.0 p95=101.5 p99=199.1 max=398.9
+$ docker stats --no-stream lt
+CPU 0.28%  MEM 134.1MiB / 1GiB
+
+## t3.small sustained baseline (0.4 vCPU, 2 GiB)
+$ docker run -d --cpus=0.4 --memory=2g -p 35000:9000 dockerhub-user/virtualization-lab:1.0
+$ java scripts/LoadTest.java "http://localhost:35000/greeting?name=Load" 16 30
+url=http://localhost:35000/greeting?name=Load concurrency=16 duration=30s
+requests=62235 errors=0 throughput=2074.5 req/s
+latency ms: p50=1.7 p95=76.5 p99=84.9 max=120.4
+$ docker stats --no-stream lt
+CPU 0.20%  MEM 142.6MiB / 2GiB
+
+## t3 burst (2 vCPU)
+$ docker run -d --cpus=2 --memory=1g -p 35000:9000 dockerhub-user/virtualization-lab:1.0
+$ java scripts/LoadTest.java "http://localhost:35000/greeting?name=Load" 16 30
+url=http://localhost:35000/greeting?name=Load concurrency=16 duration=30s
+requests=351983 errors=0 throughput=11732.8 req/s
+latency ms: p50=1.2 p95=2.6 p99=4.1 max=21.9
+$ docker stats --no-stream lt
+CPU 0.21%  MEM 142MiB / 1GiB
+

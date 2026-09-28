@@ -1,0 +1,46 @@
+$ docker run -d --name virtualization-lab-1 -e PORT=9000 -p 34000:9000 dockerhub-user/virtualization-lab:1.0
+0db19d2e1fe128bab4d4aac6084910ee1b1f69ff92eba6399b8145175049d53a
+$ docker run -d --name virtualization-lab-2 -p 34001:9000 dockerhub-user/virtualization-lab:1.0
+cef1b7721f0545ac8f33a46ddb0bc3eadd316c4927c4676d137b2eaecd06c935
+$ docker run -d --name virtualization-lab-3 -p 34002:9000 dockerhub-user/virtualization-lab:1.0
+da864ab2010bf82bc5a7c8665b485ef3b4c24c7699eba78098b41d6446e2a665
+
+$ docker ps
+CONTAINER ID   IMAGE                                   STATUS         PORTS                     NAMES
+da864ab2010b   dockerhub-user/virtualization-lab:1.0   Up 5 seconds   0.0.0.0:34002->9000/tcp   virtualization-lab-3
+cef1b7721f05   dockerhub-user/virtualization-lab:1.0   Up 6 seconds   0.0.0.0:34001->9000/tcp   virtualization-lab-2
+0db19d2e1fe1   dockerhub-user/virtualization-lab:1.0   Up 6 seconds   0.0.0.0:34000->9000/tcp   virtualization-lab-1
+
+$ curl "http://localhost:34000/greeting?name=Container"
+Hello, Container!
+$ curl "http://localhost:34001/greeting?name=Container2"
+Hello, Container2!
+$ curl "http://localhost:34002/greeting?name=Container3"
+Hello, Container3!
+
+# Isolation: each container has its own hostname, IP address, PID namespace and JVM process
+$ docker inspect -f '{{.Name}} hostname={{.Config.Hostname}} ip={{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}} pid-on-host={{.State.Pid}}' virtualization-lab-1 virtualization-lab-2 virtualization-lab-3
+/virtualization-lab-1 hostname=0db19d2e1fe1 ip=172.17.0.2 pid-on-host=2106
+/virtualization-lab-2 hostname=cef1b7721f05 ip=172.17.0.3 pid-on-host=2192
+/virtualization-lab-3 hostname=da864ab2010b ip=172.17.0.4 pid-on-host=2281
+
+$ docker top virtualization-lab-2   # host PID of the JVM; inside its PID namespace the same process is PID 1 (see "INFO 1" in the log below)
+PID                 COMMAND             COMMAND
+2192                java                java -jar app.jar
+
+$ docker logs virtualization-lab-2 | grep "Tomcat started"
+INFO 1 --- [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9000 (http) with context path '/'
+
+# Stopping one container does not affect the others
+$ docker stop virtualization-lab-2
+virtualization-lab-2
+$ curl -s -o /dev/null -w "%{http_code}" http://localhost:34001/greeting   # stopped
+000
+$ curl http://localhost:34000/greeting?name=StillRunning
+Hello, StillRunning!
+$ curl http://localhost:34002/greeting?name=StillRunning
+Hello, StillRunning!
+$ docker start virtualization-lab-2
+virtualization-lab-2
+$ curl http://localhost:34001/greeting?name=BackAgain
+Hello, BackAgain!

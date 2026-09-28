@@ -1,0 +1,22 @@
+$ java -version
+openjdk version "21.0.10" 2026-01-20
+OpenJDK Runtime Environment (build 21.0.10+7-Ubuntu-124.04)
+OpenJDK 64-Bit Server VM (build 21.0.10+7-Ubuntu-124.04, mixed mode, sharing)
+
+$ mvn -version
+Apache Maven 3.9.11 (3e54c93a704957b63ee3494413a2b544fd3d825b)
+Maven home: /opt/maven
+Java version: 21.0.10, vendor: Ubuntu, runtime: /usr/lib/jvm/java-21-openjdk-amd64
+
+$ mvn clean package
+[INFO] Building virtualization-lab 1.0.0
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.539 s -- in co.edu.escuelaing.virtualizationlab.HelloRestControllerTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.012 s -- in co.edu.escuelaing.virtualizationlab.RestServiceApplicationTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0
+[INFO] Building jar: target/virtualization-lab-1.0.0.jar
+[INFO] Replacing main artifact target/virtualization-lab-1.0.0.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+[INFO] BUILD SUCCESS
+[INFO] Total time:  5.746 s
+
+$ ls -lh target/*.jar
+-rw-r--r-- 1 root root 19M Sep 28 00:20 target/virtualization-lab-1.0.0.jar

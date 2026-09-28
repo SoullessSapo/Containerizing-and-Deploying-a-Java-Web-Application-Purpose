@@ -1,0 +1,16 @@
+key,service,description,unit,price_usd,source_offer,offer_publication_date
+ec2_t3_micro_hour,Amazon EC2,On-Demand Linux t3.micro (2 vCPU / 1 GiB),hour,0.0104,AmazonEC2,2026-09-25
+ec2_t3_small_hour,Amazon EC2,On-Demand Linux t3.small (2 vCPU / 2 GiB),hour,0.0208,AmazonEC2,2026-09-25
+ec2_t3_medium_hour,Amazon EC2,On-Demand Linux t3.medium (2 vCPU / 4 GiB),hour,0.0416,AmazonEC2,2026-09-25
+ec2_t4g_small_hour,Amazon EC2,On-Demand Linux t4g.small (2 vCPU / 2 GiB; Graviton),hour,0.0168,AmazonEC2,2026-09-25
+ec2_t3_cpu_credit_vcpu_hour,Amazon EC2,T3 Unlimited surplus CPU credits (Linux; only charged when average CPU exceeds the baseline),vCPU-hour,0.05,AmazonEC2,2026-09-25
+ebs_gp3_gb_month,Amazon EBS,gp3 provisioned storage (3000 IOPS / 125 MB/s included),GB-month,0.08,AmazonEC2,2026-09-25
+public_ipv4_hour,Amazon VPC,In-use public IPv4 address,hour,0.005,AmazonVPC,2026-09-17
+alb_hour,Elastic Load Balancing,Application Load Balancer,hour,0.0225,AWSELB,2026-09-11
+alb_lcu_hour,Elastic Load Balancing,Application Load Balancer capacity unit (LCU),LCU-hour,0.008,AWSELB,2026-09-11
+data_out_internet_gb,AWS Data Transfer,Data transfer out to the internet (first 10 TB/month beyond the 100 GB/month global free tier),GB,0.09,AWSDataTransfer,2026-09-16
+data_inter_az_gb,AWS Data Transfer,Regional data transfer between Availability Zones (each direction),GB,0.01,AWSDataTransfer,2026-09-16
+lambda_request,AWS Lambda,Requests (x86 and Arm),request,0.0000002,AWSLambda,2026-09-19
+lambda_gb_second,AWS Lambda,Compute duration x86 (first 6 billion GB-seconds),GB-second,0.0000166667,AWSLambda,2026-09-19
+apigw_http_request,Amazon API Gateway,HTTP API requests (first 300 million),request,0.000001,AmazonApiGateway,2026-09-21
+ecr_storage_gb_month,Amazon ECR,Private repository storage,GB-month,0.10,AmazonECR,2026-09-11

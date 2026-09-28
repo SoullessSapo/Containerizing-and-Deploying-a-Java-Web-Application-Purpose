@@ -1,0 +1,22 @@
+$ java -jar target/*.jar          # PORT not set -> default port 6000
+ :: Spring Boot ::                (v4.1.1)
+INFO 1835 --- [           main] c.e.e.v.RestServiceApplication           : Starting RestServiceApplication v1.0.0 using Java 21.0.10 with PID 1835 (target/virtualization-lab-1.0.0.jar started by root in .)
+INFO 1835 --- [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 6000 (http) with context path '/'
+INFO 1835 --- [           main] c.e.e.v.RestServiceApplication           : Started RestServiceApplication in 1.68 seconds (process running for 2.122)
+
+$ curl -i "http://localhost:6000/greeting?name=Pedro"
+HTTP/1.1 200 
+Content-Type: text/plain;charset=UTF-8
+Content-Length: 13
+Date: Mon, 28 Sep 2026 00:20:59 GMT
+
+Hello, Pedro!
+
+$ curl "http://localhost:6000/greeting"
+Hello, World!
+
+$ PORT=9090 java -jar target/*.jar   # PORT set -> port 9090
+INFO 1897 --- [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9090 (http) with context path '/'
+
+$ curl "http://localhost:9090/greeting?name=EnvironmentVariable"
+Hello, EnvironmentVariable!

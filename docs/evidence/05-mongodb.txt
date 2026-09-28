@@ -1,0 +1,46 @@
+$ docker compose exec db mongosh
+
+test> show dbs
+admin    8.00 KiB
+config  12.00 KiB
+local    8.00 KiB
+test> use workshop
+switched to db workshop
+workshop> db.messages.insertOne({ message: "Hello from Docker Compose" })
+{
+  acknowledged: true,
+  insertedId: ObjectId('6ab9b37c6d9d8521f306036c')
+}
+workshop> db.messages.find()
+[
+  {
+    _id: ObjectId('6ab9b37c6d9d8521f306036c'),
+    message: 'Hello from Docker Compose'
+  }
+]
+workshop> exit
+
+
+# Named volumes outlive containers: `docker compose down` keeps the data
+$ docker compose down
+ Container virtualization-web Removed 
+ Container virtualization-db Removed 
+ Network virtualization-lab_default Removed 
+$ docker compose up -d
+ Container virtualization-db Started 
+ Container virtualization-web Started 
+$ docker compose exec db mongosh workshop --quiet --eval "db.messages.countDocuments()"
+1
+
+# `docker compose down -v` also deletes the named volumes, and with them the data
+$ docker compose down -v
+ Container virtualization-web Removed 
+ Container virtualization-db Removed 
+ Volume virtualization-lab_mongodb Removed 
+ Volume virtualization-lab_mongodb_config Removed 
+ Network virtualization-lab_default Removed 
+$ docker compose up -d
+ Container virtualization-db Started 
+ Container virtualization-web Started 
+$ docker compose exec db mongosh workshop --quiet --eval "db.messages.countDocuments()"
+0

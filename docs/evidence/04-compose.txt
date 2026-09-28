@@ -1,0 +1,47 @@
+$ docker compose up -d --build
+ Image virtualization-lab-web Building 
+ Image virtualization-lab-web Built 
+ Network virtualization-lab_default Creating 
+ Network virtualization-lab_default Created 
+ Volume virtualization-lab_mongodb Creating 
+ Volume virtualization-lab_mongodb Created 
+ Volume virtualization-lab_mongodb_config Creating 
+ Volume virtualization-lab_mongodb_config Created 
+ Container virtualization-db Creating 
+ Container virtualization-db Created 
+ Container virtualization-web Creating 
+ Container virtualization-web Created 
+ Container virtualization-db Starting 
+ Container virtualization-db Started 
+ Container virtualization-web Starting 
+ Container virtualization-web Started 
+
+$ docker compose ps
+NAME                 IMAGE                    SERVICE   STATUS         PORTS
+virtualization-db    mongo:8                  db        Up 3 seconds   0.0.0.0:27017->27017/tcp
+virtualization-web   virtualization-lab-web   web       Up 3 seconds   0.0.0.0:8087->9000/tcp
+
+$ docker compose logs web     (excerpt)
+virtualization-web  | INFO 1 --- [           main] c.e.e.v.RestServiceApplication           : Starting RestServiceApplication v1.0.0 using Java 21.0.12.1 with PID 1
+virtualization-web  | INFO 1 --- [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9000 (http) with context path '/'
+virtualization-web  | INFO 1 --- [           main] c.e.e.v.RestServiceApplication           : Started RestServiceApplication in 1.813 seconds (process running for 2.25)
+
+$ docker compose logs db      (excerpt, JSON lines truncated)
+virtualization-db  | {"t":{"$date":"2026-09-28T00:22:40.789+00:00"},"s":"I",  "c":"CONTROL",  "id":23403,   "ctx":"initandlisten","msg":"Build Info","attr":{"buildInfo":{"version":"8.3.11","
+virtualization-db  | {"t":{"$date":"2026-09-28T00:22:40.916+00:00"},"s":"I",  "c":"NETWORK",  "id":23016,   "ctx":"listener","msg":"Waiting for connections","attr":{"port":27017,"ssl":"off"}
+
+$ curl "http://localhost:8087/greeting?name=Compose"
+Hello, Compose!
+
+# The web container resolves the MongoDB service by its Compose service name "db"
+$ docker compose exec web getent hosts db
+172.18.0.2      db
+
+$ docker network ls | grep virtualization-lab
+NAME                         DRIVER
+virtualization-lab_default   bridge
+
+$ docker volume ls | grep virtualization-lab
+DRIVER    VOLUME NAME
+local     virtualization-lab_mongodb
+local     virtualization-lab_mongodb_config

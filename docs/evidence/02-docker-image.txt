@@ -1,0 +1,46 @@
+$ docker build -t dockerhub-user/virtualization-lab:1.0 .
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 477B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/amazoncorretto:21
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 110B done
+#3 DONE 0.0s
+
+#4 [1/3] FROM docker.io/library/amazoncorretto:21@sha256:f38f422ddf282963febf97e5d65a8f81e231f777495d5428bb93be75a9a890fe
+#4 DONE 0.0s
+
+#5 [2/3] WORKDIR /app
+#5 DONE 0.1s
+
+#6 [internal] load build context
+#6 transferring context: 19.91MB 0.1s done
+#6 DONE 0.1s
+
+#7 [3/3] COPY target/*.jar app.jar
+#7 DONE 0.1s
+
+#8 exporting to image
+#8 exporting layers
+#8 exporting layers 0.7s done
+#8 exporting manifest sha256:464cadceb48f97c0471ad96a3c7c03ca7c84a0549d3b7b206c9f1f2f7fa51980 done
+#8 exporting config sha256:d255669908439b9cb9efa49aa3a8c9ce26452765a7e57098fe13e1cc9969d253 done
+#8 exporting attestation manifest sha256:7fe383f374d0c06c9d9956dcd979e45e1bd314077864aca859fc6583519102d9 done
+#8 exporting manifest list sha256:32037cc278697874db3621bc5a0fba919b51f07370e9431784dcef40befd71e5 done
+#8 naming to docker.io/dockerhub-user/virtualization-lab:1.0 done
+#8 unpacking to docker.io/dockerhub-user/virtualization-lab:1.0
+#8 unpacking to docker.io/dockerhub-user/virtualization-lab:1.0 0.2s done
+#8 DONE 1.0s
+
+$ docker images
+REPOSITORY                          TAG       IMAGE ID       SIZE
+dockerhub-user/virtualization-lab   1.0       32037cc27869   771MB
+amazoncorretto                      21        f38f422ddf28   739MB
+
+$ docker image inspect dockerhub-user/virtualization-lab:1.0 --format '{{.Config.Env}} {{.Config.ExposedPorts}} {{.Config.Entrypoint}}'
+[PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin LANG=C.UTF-8 JAVA_HOME=/usr/lib/jvm/java-21-amazon-corretto PORT=9000] map[9000/tcp:{}] [java -jar app.jar]

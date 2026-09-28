@@ -1,0 +1,27 @@
+scenario,monthly_requests,item,calculation,usd_per_month,share_percent
+Small workload,10000,EC2 compute,1 x t3.micro x 730 h x $0.0104/h,7.5920,63.9
+Small workload,10000,EBS storage,1 x 8 GB gp3 x $0.08/GB-month,0.6400,5.4
+Small workload,10000,Data transfer out,0.019 GB x $0.09/GB,0.0017,0.0
+Small workload,10000,Public IPv4,1 address(es) x 730 h x $0.005/h,3.6500,30.7
+Small workload,10000,TOTAL,,11.8837,100.0
+Medium workload,100000,EC2 compute,1 x t3.small x 730 h x $0.0208/h,15.1840,74.2
+Medium workload,100000,EBS storage,1 x 20 GB gp3 x $0.08/GB-month,1.6000,7.8
+Medium workload,100000,Data transfer out,0.191 GB x $0.09/GB,0.0172,0.1
+Medium workload,100000,Public IPv4,1 address(es) x 730 h x $0.005/h,3.6500,17.8
+Medium workload,100000,TOTAL,,20.4512,100.0
+Large workload,1000000,EC2 compute,2 x t3.small x 730 h x $0.0208/h,30.3680,46.5
+Large workload,1000000,EBS storage,2 x 20 GB gp3 x $0.08/GB-month,3.2000,4.9
+Large workload,1000000,Data transfer out,1.907 GB x $0.09/GB,0.1717,0.3
+Large workload,1000000,Public IPv4,4 address(es) x 730 h x $0.005/h,14.6000,22.3
+Large workload,1000000,Application Load Balancer,730 h x $0.0225/h + 0.1 LCU x 730 h x $0.008,17.0090,26.0
+Large workload,1000000,TOTAL,,65.3487,100.0
+"Small, office hours only (12 h x 22 days)",10000,EC2 compute,1 x t3.micro x 264 h x $0.0104/h,2.7456,58.3
+"Small, office hours only (12 h x 22 days)",10000,EBS storage,1 x 8 GB gp3 x $0.08/GB-month,0.6400,13.6
+"Small, office hours only (12 h x 22 days)",10000,Data transfer out,0.019 GB x $0.09/GB,0.0017,0.0
+"Small, office hours only (12 h x 22 days)",10000,Public IPv4,1 address(es) x 264 h x $0.005/h,1.3200,28.0
+"Small, office hours only (12 h x 22 days)",10000,TOTAL,,4.7073,100.0
+"Large, single instance (no HA)",1000000,EC2 compute,1 x t3.small x 730 h x $0.0208/h,15.1840,73.7
+"Large, single instance (no HA)",1000000,EBS storage,1 x 20 GB gp3 x $0.08/GB-month,1.6000,7.8
+"Large, single instance (no HA)",1000000,Data transfer out,1.907 GB x $0.09/GB,0.1717,0.8
+"Large, single instance (no HA)",1000000,Public IPv4,1 address(es) x 730 h x $0.005/h,3.6500,17.7
+"Large, single instance (no HA)",1000000,TOTAL,,20.6057,100.0
